@@ -1,4 +1,16 @@
-/* ====== Reset & basic styling ====== */
+/* ===== Variables ===== */
+:root {
+  --primary: #0a7fff;
+  --dark: #333;
+  --light: #f8f9fa;
+  --shadow: rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Reset & base ===== */
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -9,7 +21,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans JP", sans-serif;
   line-height: 1.6;
-  color: #333;
+  color: var(--dark);
 }
 
 a {
@@ -17,21 +29,20 @@ a {
   color: inherit;
 }
 
-/* ====== Layout helpers ====== */
 .container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-/* ====== Header ====== */
+/* ===== Header ===== */
 header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--shadow);
   z-index: 1000;
 }
 
@@ -49,9 +60,25 @@ header {
 
 .nav-links a {
   font-weight: 600;
+  position: relative;
 }
 
-/* ====== Mobile menu ====== */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* ===== Mobile menu ===== */
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -64,7 +91,7 @@ header {
 .menu-toggle span {
   width: 25px;
   height: 3px;
-  background: #333;
+  background: var(--dark);
   border-radius: 2px;
 }
 
@@ -87,11 +114,10 @@ header {
   }
 }
 
-/* ====== Hero ====== */
+/* ===== Hero ===== */
 .hero {
   height: 85vh;
-  background: url("https://source.unsplash.com/featured/?medical") center/cover
-    no-repeat;
+  background: url("https://source.unsplash.com/featured/?medical") center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,6 +137,8 @@ header {
   position: relative;
   z-index: 1;
   padding: 0 1rem;
+  animation: fadeIn 1s ease-out forwards;
+  opacity: 0;
 }
 
 .hero h1 {
@@ -120,6 +148,20 @@ header {
 
 .hero p {
   font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  transition: background 0.3s;
+}
+
+.cta-btn:hover {
+  background: #0066d6;
 }
 
 @media (min-width: 992px) {
@@ -131,7 +173,7 @@ header {
   }
 }
 
-/* ====== Sections ====== */
+/* ===== Sections ===== */
 section {
   padding: 4rem 0;
 }
@@ -148,7 +190,7 @@ section h2::after {
   display: block;
   width: 60px;
   height: 3px;
-  background: #09c;
+  background: var(--primary);
   margin: 1rem auto 0;
   border-radius: 2px;
 }
@@ -166,10 +208,16 @@ section h2::after {
 }
 
 .business-item {
-  background: #f8f9fa;
+  background: var(--light);
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.business-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px var(--shadow);
 }
 
 /* News */
@@ -192,10 +240,109 @@ section h2::after {
   border-bottom: 1px solid #eee;
 }
 
-/* ====== Footer ====== */
+/* Footer */
 footer {
   background: #f1f3f5;
   padding: 1rem 0;
   text-align: center;
   font-size: 0.875rem;
+}
+
+/* Fade-in utility */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== Business grid redesigned ===== */
+.business-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.business-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 2.75rem 1.5rem 1.75rem;
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 6px solid var(--primary);
+  overflow: hidden;
+}
+
+.business-card:hover {
+  transform: translateY(-6px);
+}
+
+.business-card .icon {
+  position: absolute;
+  top: -22px;
+  right: -22px;
+  background: var(--primary);
+  color: #fff;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.business-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.business-card p {
+  font-size: 0.94rem;
+  color: #555;
+}
+
+/* ===== Variables & base remain unchanged ... */
+
+/* ===== Hero with rotating background ===== */
+.hero {
+  position: relative;
+  height: 85vh;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  animation: slideshow 20s ease-in-out infinite;
+}
+
+/* 0%,100% と 25%・50%・75% で 4 枚切替 (→5秒ごと) */
+@keyframes slideshow {
+  0%, 100% {
+    background-image: url("./assets/32320859_m.jpg");
+  }
+  25% {
+    background-image: url("./assets/32320859_m.jpg");
+  }
+  50% {
+    background-image: url("./assets/32320859_m.jpg");
+  }
+  75% {
+    background-image: url("./assets/32320859_m.jpg");
+  }
 }
